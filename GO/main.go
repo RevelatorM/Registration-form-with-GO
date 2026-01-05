@@ -16,22 +16,37 @@ type SiteData struct {
 
 // ========================
 var (
-	tmpl = template.Must(template.ParseFiles("index.html")) //relation between GO and HTML
+	formTmpl    = template.Must(template.ParseFiles("../index.html")) //relation between GO and HTML
+	successTmpl = template.Must(template.ParseFiles("../success.html"))
 )
 
 // ========================
 func handler(w http.ResponseWriter, req *http.Request) { //separeted handler function
-	data := SiteData{
-		email:    req.FormValue("email"),
-		password: req.FormValue("password"),
+	if req.Method == http.MethodGet {
+		formTmpl.Execute(w, nil)
+		return
 	}
-	data.Success = true
-	data.StorageAccess = "Registrtion Completed!"
-	tmpl.Execute(w, data)
+
+	if req.Method == http.MethodPost {
+		email := req.FormValue("email")
+		password := req.FormValue("password")
+
+		log.Println("Email:", email)
+		log.Println("Password:", password)
+
+		http.Redirect(w, req, "/success", http.StatusSeeOther)
+		return
+	}
+}
+
+// ========================
+func successHandler(w http.ResponseWriter, req *http.Request) {
+	successTmpl.Execute(w, nil)
 }
 
 // ========================
 func main() {
 	http.HandleFunc("/", handler) // "/" - root
-	log.Fatal(http.ListenAndServe(":80", nil))
+	http.HandleFunc("/success", successHandler)
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
