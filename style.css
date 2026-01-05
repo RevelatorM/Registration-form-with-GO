@@ -1,0 +1,17 @@
+body{
+background-color:skyblue;
+}
+.Form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btn_sb{
+border-radius: 10px;
+}
+#emailC{
+border-radius: 5px;
+}
+#passwordC{
+border-radius: 5px;
+}
