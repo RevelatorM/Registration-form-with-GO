@@ -5,6 +5,8 @@ background-color:skyblue;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    margin-top: 250px;
 }
 #btn_sb{
 border-radius: 10px;
